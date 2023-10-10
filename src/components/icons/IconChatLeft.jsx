@@ -1,7 +1,7 @@
 // icon:chat-left | Bootstrap https://icons.getbootstrap.com/ | Bootstrap
 import * as React from "react";
 
-function IconChatLeft(props: React.SVGProps<SVGSVGElement>) {
+function IconChatLeft(props) {
   return (
     <svg
       fill="currentColor"

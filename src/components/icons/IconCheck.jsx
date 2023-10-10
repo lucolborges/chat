@@ -1,7 +1,7 @@
 // icon:check | Ant Design Icons https://ant.design/components/icon/ | Ant Design
 import * as React from "react";
 
-function IconCheck(props: React.SVGProps<SVGSVGElement>) {
+function IconCheck(props) {
   return (
     <svg
       viewBox="0 0 1024 1024"

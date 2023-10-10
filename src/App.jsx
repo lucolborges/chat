@@ -5,6 +5,7 @@ import Chatarea from "./components/Chatarea";
 import Footer from "./components/Footer";
 import { useThemeProvider } from "./zustang/ThemeProvider";
 import { v4 as uuidv4 } from "uuid";
+import SideBarChatButton from "./components/SideBarChatButton";
 
 const exemploChat = {
   id: "1",
@@ -54,28 +55,19 @@ function Page() {
       }
       setChatList(chatListClone);
       setAILoading(false);
-    }, 3000)
+    }, 2000)
   }
 
   /************************************************* */
 
   /***********funcionalidade de botões *************8 */
   const {setSideBarOpened} = useThemeProvider();
-  /* abre sidebar */
-  // const openSidebar = () => {
-  //   setSidbarOpened(true);
-  // };
-
-  /* fecha sidebar */
-  // const closeSidebar = () => {
-  //   setSidbarOpened(false);
-  // };
 
   /* apagar conversas */
   const handleClearConversations = () => {
-    // if (AILoading) return;
-    // setChatActiveId("");
-    // setChatList([]);
+    if (AILoading) return;
+    setChatActiveId("");
+    setChatList([]);
   };
 
   /* nova conversa */
@@ -121,6 +113,19 @@ function Page() {
   const handleLogOut = () => {};
   /************************************************** */
 
+  /***********************funções no SideBarChatButton *********8 */
+
+  /*** indica chat ativo na barra lateral */
+  const handleSelectChat = (id) => {
+    if(AILoading) return;
+    let item = chatList.find(item => item.id === id)
+    if(item) setChatActiveId(item.id)
+  };
+
+  const handleDeleteChat = () => {
+
+  };
+
   return (
     <main
       className={`flex min-h-screen ${
@@ -132,12 +137,20 @@ function Page() {
         onNewChat={handleNewChat}
         onLogOut={handleLogOut}
       >
-        ...
+        {chatList.map(item => (
+          <SideBarChatButton
+          key={item.id}
+          chatItem={item}
+          active={item.id === chatActiveId}
+          onClick={handleSelectChat}
+          onDelete={handleDeleteChat}
+          />
+        ))}
       </Sidebar>
 
       <section className="flex flex-col w-full text-white">
         <Header
-          title={`blablabla`}
+          title={chatActive ? chatActive.title : 'ZipChat'}
           newChatClick={handleNewChat}
         />
 
