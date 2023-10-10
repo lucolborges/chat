@@ -6,12 +6,12 @@ import IconTrash from "./icons/IconTrash";
 import { useThemeProvider } from "../zustang/ThemeProvider";
 import ConfigBar from "./ConfigBar";
 
-function Sidebar({children, open, onClose, onClear, onNewChat, onLogOut}) {
+function Sidebar({children, onClear, onNewChat, onLogOut}) {
   const {theme, setSideBarOpened, sideBarOpened} = useThemeProvider();
 
   return (
-    <section className={`fixed left-0 top-0 bottom-0 text-white ${open ? 'w-screen bg-gray-600/75' : 'w-0'} md:w-64 md:static`}>
-      <div className={` transition-all duration-200 flex h-screen ${open ? 'ml-0' : '-ml-96'} md:ml-0`}>
+    <section className={`fixed left-0 top-0 bottom-0 text-white ${sideBarOpened ? 'w-screen bg-gray-600/75' : 'w-0'} md:w-64 md:static`}>
+      <div className={` transition-all duration-200 flex h-screen ${sideBarOpened ? 'ml-0' : '-ml-96'} md:ml-0`}>
 
         <div className={`flex flex-col w-64 p-1 ${theme === 'dark' ? 'bg-gray-900 ' : 'bg-what-gree-darker'}`}>
           
@@ -42,7 +42,7 @@ function Sidebar({children, open, onClose, onClear, onNewChat, onLogOut}) {
         </div>
 
         {/* fechar sidebar mobile*/}
-        <div onClick={onClose} className="flex justify-center items-center w-10 h-10 md:hidden">
+        <div onClick={setSideBarOpened} className="flex justify-center items-center w-10 h-10 md:hidden">
           <IconClose width={24} height={24}/>
         </div>
 

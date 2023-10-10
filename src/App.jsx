@@ -26,7 +26,6 @@ const exemploChat = {
 function Page() {
   const { theme } = useThemeProvider();
 
-  const [sidebarOpened, setSidbarOpened] = useState(false);
   const [chatActive, setChatActive] = useState({});
   const [AILoading, setAILoading] = useState(false);
 
@@ -35,25 +34,42 @@ function Page() {
   const [chatActiveId, setChatActiveId] = useState("");
 
   useEffect(() => {
-
-      setChatActive(chatList.find(item => item.id === chatActiveId))
-
-
-    
+      setChatActive(chatList.find(item => item.id === chatActiveId));
   }, [chatActiveId, chatList]);
+
+  useEffect(() => {
+    if(AILoading) {
+      getAiResponse();
+    }
+  }, [AILoading])
+
+  const getAiResponse = () => {
+    setTimeout(() => {
+      let chatListClone = [...chatList];
+      let chatIndex = chatListClone.findIndex(item => item.id === chatActiveId);
+      if(chatIndex > -1){
+        chatListClone[chatIndex].messages.push({
+          id: uuidv4, author: 'ai', body: 'Aqui está a resposta da AI'
+        })
+      }
+      setChatList(chatListClone);
+      setAILoading(false);
+    }, 3000)
+  }
 
   /************************************************* */
 
   /***********funcionalidade de botões *************8 */
+  const {setSideBarOpened} = useThemeProvider();
   /* abre sidebar */
-  const openSidebar = () => {
-    setSidbarOpened(true);
-  };
+  // const openSidebar = () => {
+  //   setSidbarOpened(true);
+  // };
 
   /* fecha sidebar */
-  const closeSidebar = () => {
-    setSidbarOpened(false);
-  };
+  // const closeSidebar = () => {
+  //   setSidbarOpened(false);
+  // };
 
   /* apagar conversas */
   const handleClearConversations = () => {
@@ -64,9 +80,9 @@ function Page() {
 
   /* nova conversa */
   const handleNewChat = () => {
-    // if (AILoading) return;
-    // setChatActiveId("");
-    // closeSidebar();
+    if (AILoading) return;
+    setChatActiveId("");
+    setSideBarOpened()
   };
 
   /* manda mensagem*/
@@ -112,8 +128,6 @@ function Page() {
       }`}
     >
       <Sidebar
-        open={sidebarOpened}
-        onClose={closeSidebar}
         onClear={handleClearConversations}
         onNewChat={handleNewChat}
         onLogOut={handleLogOut}
@@ -123,7 +137,6 @@ function Page() {
 
       <section className="flex flex-col w-full text-white">
         <Header
-          openSidebarClick={openSidebar}
           title={`blablabla`}
           newChatClick={handleNewChat}
         />
